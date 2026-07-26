@@ -26,14 +26,19 @@ app.add_middleware(
 # Include Authentication Routes
 app.include_router(auth_router)
 
-# Initialize the lightweight model session globally so it doesn't reload on every request
-session = new_session("u2netp")
+# We will lazy-load the session on the first request to prevent Render from timing out during startup
+session = None
 
 @app.post("/api/remove-bg", summary="Remove Background", description="Upload an image to remove its background and optionally upscale it.")
 async def remove_background(
     file: UploadFile = File(...),
     resolution: str = Form("original") # HD, 2K, 4K, original
 ):
+    global session
+    if session is None:
+        print("Initializing AI model (this may take a minute on the first run)...")
+        session = new_session("u2netp")
+        
     # Read image contents
     contents = await file.read()
     
