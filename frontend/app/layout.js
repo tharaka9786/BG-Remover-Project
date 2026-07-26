@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Navbar from './components/Navbar';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,16 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <nav style={{ padding: '1rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--glass-bg)', backdropFilter: 'blur(10px)', borderBottom: '1px solid var(--border-color)', position: 'sticky', top: 0, zIndex: 100 }}>
-          <div>
-            <a href="/" style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>BGPhotoRemover</a>
-          </div>
-          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-            <a href="/about" className="nav-link">About</a>
-            <a href="/login" className="nav-link">Login</a>
-            <a href="/register" className="btn btn-primary" style={{ padding: '0.5rem 1.5rem', marginLeft: '0.5rem' }}>Sign Up</a>
-          </div>
-        </nav>
+        <Navbar />
         <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           {children}
         </main>

@@ -294,3 +294,25 @@ input:-webkit-autofill:active {
   }
 }
 
+/* Mobile Navigation Utilities */
+.mobile-menu-btn {
+  display: none !important;
+}
+
+.mobile-dropdown {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none !important;
+  }
+  .mobile-menu-btn {
+    display: block !important;
+  }
+  .mobile-dropdown {
+    display: flex !important;
+  }
+}
+
+
