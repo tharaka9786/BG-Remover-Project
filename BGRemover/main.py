@@ -30,7 +30,7 @@ app.include_router(auth_router)
 session = None
 
 @app.post("/api/remove-bg", summary="Remove Background", description="Upload an image to remove its background and optionally upscale it.")
-async def remove_background(
+def remove_background(
     file: UploadFile = File(...),
     resolution: str = Form("original") # HD, 2K, 4K, original
 ):
@@ -40,7 +40,7 @@ async def remove_background(
         session = new_session("u2netp")
         
     # Read image contents
-    contents = await file.read()
+    contents = file.file.read()
     
     # Process image with rembg
     try:
