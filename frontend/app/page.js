@@ -67,10 +67,40 @@ export default function Home() {
 
             if (response.ok) {
               const blob = await response.blob();
+              let finalProcessedUrl = URL.createObjectURL(blob);
+
+              // Apply upscaling if a higher quality was chosen
+              if (resolution !== "original") {
+                const img = new Image();
+                img.src = finalProcessedUrl;
+                await new Promise((resolve) => { img.onload = resolve; });
+                
+                let targetWidth = null;
+                if (resolution === "HD") targetWidth = 1920;
+                else if (resolution === "2K") targetWidth = 2560;
+                else if (resolution === "4K") targetWidth = 3840;
+
+                // Only upscale if the image is smaller than the target width
+                if (targetWidth && img.width < targetWidth) {
+                  const canvas = document.createElement("canvas");
+                  const aspect = img.height / img.width;
+                  canvas.width = targetWidth;
+                  canvas.height = targetWidth * aspect;
+                  
+                  const ctx = canvas.getContext("2d");
+                  ctx.imageSmoothingEnabled = true;
+                  ctx.imageSmoothingQuality = "high";
+                  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                  
+                  const resizedBlob = await new Promise(resolve => canvas.toBlob(resolve, "image/png", 1.0));
+                  finalProcessedUrl = URL.createObjectURL(resizedBlob);
+                }
+              }
+
               return {
                 name: file.name,
                 originalUrl: URL.createObjectURL(file),
-                processedUrl: URL.createObjectURL(blob),
+                processedUrl: finalProcessedUrl,
               };
             } else {
               console.error(`Failed to process ${file.name}`);
