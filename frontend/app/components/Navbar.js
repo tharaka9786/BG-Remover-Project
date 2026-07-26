@@ -19,9 +19,9 @@ export default function Navbar() {
 
       {/* Mobile Hamburger Button */}
       <button 
-        className="mobile-menu-btn" 
+        className={`mobile-menu-btn menu-icon-btn ${isOpen ? 'open' : ''}`} 
         onClick={() => setIsOpen(!isOpen)}
-        style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: 'var(--text-primary)' }}
+        style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '32px', height: '32px' }}
         aria-label="Toggle menu"
       >
         {isOpen ? '✕' : '☰'}
@@ -29,7 +29,7 @@ export default function Navbar() {
 
       {/* Mobile Dropdown */}
       {isOpen && (
-        <div className="mobile-dropdown" style={{ 
+        <div className="mobile-dropdown animate-slide-down" style={{ 
           position: 'absolute', top: '100%', left: 0, right: 0, 
           background: 'var(--surface-color)', padding: '1.5rem 2rem', 
           borderBottom: '1px solid var(--border-color)',
