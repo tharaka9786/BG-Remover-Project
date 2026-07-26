@@ -7,3 +7,5 @@ onnxruntime
 sqlalchemy
 passlib[bcrypt]
 python-jose[cryptography]
+psycopg2-binary
+python-dotenv
