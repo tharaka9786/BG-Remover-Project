@@ -104,7 +104,7 @@ export default function Home() {
       
       {/* Top Text Section */}
       <div style={{ textAlign: 'center', marginTop: '4rem', padding: '0 2rem' }}>
-        <h1 style={{ fontSize: '3.5rem', fontWeight: '900', letterSpacing: '-1px', marginBottom: '1rem', color: 'var(--text-primary)' }}>
+        <h1 className="responsive-title">
           Free AI image enhancer.
         </h1>
         <p style={{ fontSize: '1.1rem', color: 'var(--text-primary)', marginBottom: '0.5rem', maxWidth: '800px', margin: '0 auto' }}>
@@ -162,8 +162,9 @@ export default function Home() {
 
           {/* Upload Box Section */}
           <div 
+            className="responsive-margin"
             style={{ 
-              width: '100%', maxWidth: '700px', margin: '2rem 2rem 4rem 2rem', padding: '1rem',
+              width: '100%', maxWidth: '700px', padding: '1rem',
               background: 'var(--surface-color)', borderRadius: '24px',
               boxShadow: '0 10px 40px rgba(0,0,0,0.08)'
             }}
@@ -175,7 +176,7 @@ export default function Home() {
               onDragOver={handleDrag}
               onDrop={handleDrop}
             >
-              <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem', color: 'var(--text-primary)' }}>
+              <h2 className="responsive-box-title">
                 Drag and drop up to 5 images <br/>
                 <span style={{ color: 'var(--primary-color)' }}>or browse to upload.</span>
               </h2>
@@ -232,7 +233,7 @@ export default function Home() {
 
           {/* Action Button if File Selected */}
           {selectedFiles.length > 0 && (
-            <div style={{ marginBottom: '4rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
+            <div style={{ marginBottom: '4rem', display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
               <select 
                 className="input-field" 
                 value={resolution} 
@@ -258,11 +259,11 @@ export default function Home() {
 
           {/* How To Section */}
           <div className="bg-gradient-banner" style={{ width: '100%', padding: '5rem 2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '3rem', textAlign: 'center' }}>
+            <h2 className="responsive-subtitle">
               How to improve your photo with the AI image enhancer.
             </h2>
             
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', width: '100%', maxWidth: '1200px' }}>
+            <div className="responsive-grid">
               
               <div style={{ background: 'var(--surface-color)', padding: '2rem', borderRadius: '16px', color: 'var(--text-primary)', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
                 <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>

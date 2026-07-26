@@ -242,4 +242,55 @@ input:-webkit-autofill:active {
   animation-delay: 2s;
 }
 
+/* Responsive typography and layout utilities */
+.responsive-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.responsive-subtitle {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.responsive-box-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.responsive-margin {
+  margin: 2rem 2rem 4rem 2rem;
+}
+
+.responsive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+@media (max-width: 768px) {
+  .responsive-title {
+    font-size: 2.2rem;
+  }
+  .responsive-subtitle {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+  .responsive-box-title {
+    font-size: 1.5rem;
+  }
+  .responsive-margin {
+    margin: 2rem 1rem 3rem 1rem;
+  }
+  .drag-drop-box {
+    padding: 2rem 1rem;
+  }
+}
 
