@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+python-multipart
+rembg
+pillow
+onnxruntime
+sqlalchemy
+passlib[bcrypt]
+python-jose[cryptography]
