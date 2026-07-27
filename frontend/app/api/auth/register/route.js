@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import prisma from '../../../../lib/prisma';
+export const dynamic = 'force-dynamic';
+import getPrisma from '../../../../lib/prisma';
 import bcrypt from 'bcryptjs';
 
 export async function POST(request) {
@@ -11,6 +12,7 @@ export async function POST(request) {
     }
 
     // Check if user already exists
+    const prisma = getPrisma();
     const existingUser = await prisma.user.findUnique({
       where: { email }
     });

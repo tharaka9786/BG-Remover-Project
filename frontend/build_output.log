@@ -1,0 +1,39 @@
+
+> frontend@0.1.0 build
+> next build
+
+▲ Next.js 16.2.10 (Turbopack)
+- Environments: .env.local, .env
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 6.2s
+  Running TypeScript ...
+  Finished TypeScript in 4.3s ...
+  Collecting page data using 3 workers ...
+Error: Failed to load external module @prisma/client-2c3a283f134fdcb6: Error: Cannot find module '.prisma/client/default'
+Require stack:
+- /media/hunter_drive/BG Remover Project/frontend/node_modules/@prisma/client/default.js
+- /media/hunter_drive/BG Remover Project/frontend/.next/server/chunks/[root-of-the-server]__0bo5xk1._.js
+- /media/hunter_drive/BG Remover Project/frontend/.next/server/chunks/[turbopack]_runtime.js
+- /media/hunter_drive/BG Remover Project/frontend/.next/server/app/api/auth/login/route.js
+- /media/hunter_drive/BG Remover Project/frontend/node_modules/next/dist/server/require.js
+- /media/hunter_drive/BG Remover Project/frontend/node_modules/next/dist/server/load-components.js
+- /media/hunter_drive/BG Remover Project/frontend/node_modules/next/dist/build/utils.js
+- /media/hunter_drive/BG Remover Project/frontend/node_modules/next/dist/build/worker.js
+- /media/hunter_drive/BG Remover Project/frontend/node_modules/next/dist/compiled/jest-worker/processChild.js
+    at Context.externalRequire [as x] (.next/server/chunks/[turbopack]_runtime.js:624:15)
+    at module evaluation (.next/server/chunks/[root-of-the-server]__0bo5xk1._.js:1:45)
+    at instantiateModule (.next/server/chunks/[turbopack]_runtime.js:853:9)
+    at getOrInstantiateModuleFromParent (.next/server/chunks/[turbopack]_runtime.js:877:12)
+    at Context.esmImport [as i] (.next/server/chunks/[turbopack]_runtime.js:281:20)
+    at module evaluation (.next/server/chunks/[root-of-the-server]__0bo5xk1._.js:1:236)
+    at instantiateModule (.next/server/chunks/[turbopack]_runtime.js:853:9)
+    at getOrInstantiateModuleFromParent (.next/server/chunks/[turbopack]_runtime.js:877:12)
+    at Context.esmImport [as i] (.next/server/chunks/[turbopack]_runtime.js:281:20)
+    at module evaluation (.next/server/chunks/[root-of-the-server]__1f9udbq._.js:1:1267)
+
+> Build error occurred
+Error: Failed to collect page data for /api/auth/login
+    at ignore-listed frames {
+  type: 'Error'
+}
