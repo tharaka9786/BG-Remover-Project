@@ -1,0 +1,176 @@
+
+> frontend@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.10 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://10.78.41.162:3000
+- Environments: .env.local, .env
+✓ Ready in 1603ms
+⚠ Slow filesystem detected. The benchmark took 1265ms. If /media/hunter_drive/BG Remover Project/frontend/.next/dev is a network drive, consider moving it to a local folder.
+See more: https://nextjs.org/docs/app/guides/local-development
+
+○ Compiling /api/auth/register ...
+Registration Error: Error [PrismaClientConstructorValidationError]: Unknown property datasourceUrl provided to PrismaClient constructor.
+Read more at https://pris.ly/d/client-constructor
+    at getPrisma (lib/prisma.js:7:14)
+    at POST (app/api/auth/register/route.js:15:29)
+   5 | export default function getPrisma() {
+   6 |   if (!prisma) {
+>  7 |     prisma = new PrismaClient({
+     |              ^
+   8 |       datasourceUrl: process.env.POSTGRES_PRISMA_URL || process.env.POSTGRES_DATABASE_URL ...
+   9 |     });
+  10 |   }
+ POST /api/auth/register 500 in 5.4s (next.js: 4.6s, application-code: 736ms)
+Registration Error: Error [PrismaClientConstructorValidationError]: Unknown property datasources provided to PrismaClient constructor.
+Read more at https://pris.ly/d/client-constructor
+    at getPrisma (lib/prisma.js:7:14)
+    at POST (app/api/auth/register/route.js:15:29)
+   5 | export default function getPrisma() {
+   6 |   if (!prisma) {
+>  7 |     prisma = new PrismaClient({
+     |              ^
+   8 |       datasources: {
+   9 |         db: {
+  10 |           url: process.env.POSTGRES_PRISMA_URL || process.env.POSTGRES_DATABASE_URL || pro...
+ POST /api/auth/register 500 in 451ms (next.js: 16ms, application-code: 435ms)
+Registration Error: Error [PrismaClientInitializationError]: PrismaClient was instantiated without any options. A driver adapter is required to connect to your database.
+
+Pass a driver adapter to the PrismaClient constructor, for example:
+
+  import { PrismaPg } from '@prisma/adapter-pg'
+  import { PrismaClient } from './generated/prisma/client'
+
+  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
+  const prisma = new PrismaClient({ adapter })
+
+Learn more about driver adapters: https://pris.ly/d/driver-adapters
+
+If you use Prisma Accelerate instead of connecting to your database directly, pass `accelerateUrl` to the PrismaClient constructor instead of `adapter`.
+    at getPrisma (lib/prisma.js:7:14)
+    at POST (app/api/auth/register/route.js:15:29)
+   5 | export default function getPrisma() {
+   6 |   if (!prisma) {
+>  7 |     prisma = new PrismaClient();
+     |              ^
+   8 |   }
+   9 |   return prisma;
+  10 | } {
+  clientVersion: '7.9.1',
+  errorCode: undefined,
+  retryable: undefined
+}
+ POST /api/auth/register 500 in 446ms (next.js: 13ms, application-code: 432ms)
+(node:11578) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Registration Error: Error [PrismaClientKnownRequestError]: 
+Invalid `prisma.user.findUnique()` invocation in
+/media/hunter_drive/BG Remover Project/frontend/.next/dev/server/chunks/[root-of-the-server]__1o1wa3f._.js:334:48
+
+  331 }
+  332 // Check if user already exists
+  333 const prisma = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])();
+→ 334 const existingUser = await prisma.user.findUnique(
+
+    at <unknown> (app/api/auth/register/route.js:16:44)
+    at async POST (app/api/auth/register/route.js:16:26)
+  14 |     // Check if user already exists
+  15 |     const prisma = getPrisma();
+> 16 |     const existingUser = await prisma.user.findUnique({
+     |                                            ^
+  17 |       where: { email }
+  18 |     });
+  19 | {
+  code: 'ETIMEDOUT',
+  meta: { modelName: 'User' },
+  clientVersion: '7.9.1'
+}
+ POST /api/auth/register 500 in 7.3s (next.js: 281ms, application-code: 7.0s)
+Registration Error: Error [PrismaClientKnownRequestError]: 
+Invalid `prisma.user.findUnique()` invocation:
+
+
+
+    at async POST (app/api/auth/register/route.js:16:26)
+  14 |     // Check if user already exists
+  15 |     const prisma = getPrisma();
+> 16 |     const existingUser = await prisma.user.findUnique({
+     |                          ^
+  17 |       where: { email }
+  18 |     });
+  19 | {
+  code: 'ETIMEDOUT',
+  meta: { modelName: 'User' },
+  clientVersion: '7.9.1'
+}
+ POST /api/auth/register 500 in 1175ms (next.js: 15ms, application-code: 1161ms)
+Registration Error: Error [PrismaClientKnownRequestError]: 
+Invalid `prisma.user.findUnique()` invocation:
+
+
+
+    at async POST (app/api/auth/register/route.js:16:26)
+  14 |     // Check if user already exists
+  15 |     const prisma = getPrisma();
+> 16 |     const existingUser = await prisma.user.findUnique({
+     |                          ^
+  17 |       where: { email }
+  18 |     });
+  19 | {
+  code: 'ETIMEDOUT',
+  meta: { modelName: 'User' },
+  clientVersion: '7.9.1'
+}
+ POST /api/auth/register 500 in 1240ms (next.js: 34ms, application-code: 1206ms)
+Registration Error: ErrorEvent {
+  clientVersion: '7.9.1',
+  [Symbol(kTarget)]: WebSocket {
+    _events: [Object: null prototype] {
+      error: [Function],
+      message: [Function],
+      close: [Function],
+      open: [Function]
+    },
+    _eventsCount: 4,
+    _maxListeners: undefined,
+    _binaryType: 'arraybuffer',
+    _closeCode: 1006,
+    _closeFrameReceived: false,
+    _closeFrameSent: false,
+    _closeMessage: <Buffer >,
+    _closeTimer: null,
+    _errorEmitted: true,
+    _extensions: {},
+    _paused: false,
+    _protocol: '',
+    _readyState: 3,
+    _receiver: null,
+    _sender: null,
+    _socket: null,
+    _bufferedAmount: 0,
+    _isServer: false,
+    _redirects: 0,
+    _autoPong: true,
+    _closeTimeout: 30000,
+    _url: 'wss://ep-blue-sun-aw3zlqrn-pooler.c-12.us-east-1.aws.neon.tech/v2',
+    _req: null,
+    [Symbol(shapeMode)]: false,
+    [Symbol(kCapture)]: false
+  },
+  [Symbol(kType)]: 'error',
+  [Symbol(kError)]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ETIMEDOUT',
+    [errors]: [ [Error], [Error], [Error], [Error], [Error], [Error] ]
+  },
+  [Symbol(kMessage)]: ''
+}
+ POST /api/auth/register 500 in 1032ms (next.js: 204ms, application-code: 828ms)
