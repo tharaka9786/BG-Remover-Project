@@ -2,7 +2,9 @@ import { NextResponse } from 'next/server';
 
 export async function GET(req) {
   const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-  const origin = new URL(req.url).origin;
+  const protocol = req.headers.get('x-forwarded-proto') || 'https';
+  const host = req.headers.get('host');
+  const origin = host ? `${protocol}://${host}` : new URL(req.url).origin;
   const REDIRECT_URI = `${origin}/api/auth/google/callback`;
 
   if (!GOOGLE_CLIENT_ID) {
