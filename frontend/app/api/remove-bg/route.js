@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { verifyToken } from '../../../../lib/auth';
-import getPrisma from '../../../../lib/prisma';
+import { verifyToken } from '../../../lib/auth';
+import getPrisma from '../../../lib/prisma';
 
 export async function POST(req) {
   try {
