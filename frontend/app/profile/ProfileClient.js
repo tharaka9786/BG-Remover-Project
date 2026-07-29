@@ -76,12 +76,14 @@ export default function ProfileClient() {
   }
 
   return (
-    <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
-      <div className="card glass-effect" style={{ maxWidth: '500px', width: '100%', padding: '3rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+    <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'clamp(1rem, 5vw, 2rem)' }}>
+      <div className="card glass-effect" style={{ maxWidth: '550px', width: '100%', padding: 'clamp(1.5rem, 5vw, 3rem)', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
         
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem', background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-            <div style={{ position: 'relative', width: '90px', height: '90px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '2.5rem', fontWeight: 'bold', boxShadow: '0 10px 20px rgba(111, 66, 193, 0.3)', overflow: 'hidden' }}>
+        {/* Responsive Profile Header */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', background: 'rgba(255,255,255,0.05)', padding: 'clamp(1rem, 4vw, 1.5rem)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)' }}>
+          
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap', justifyContent: 'center', textAlign: 'center' }}>
+            <div style={{ position: 'relative', width: '90px', height: '90px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '2.5rem', fontWeight: 'bold', boxShadow: '0 10px 20px rgba(111, 66, 193, 0.3)', overflow: 'hidden', flexShrink: 0 }}>
               {avatar ? <img src={avatar} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : (user.name ? user.name.charAt(0).toUpperCase() : 'U')}
               
               <label htmlFor="avatar-upload" style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.6)', color: 'white', fontSize: '0.7rem', textAlign: 'center', padding: '0.2rem 0', cursor: 'pointer', opacity: 0.8, transition: 'opacity 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.opacity = 1} onMouseLeave={(e) => e.currentTarget.style.opacity = 0.8}>
@@ -90,13 +92,13 @@ export default function ProfileClient() {
               <input type="file" id="avatar-upload" accept="image/*" style={{ display: 'none' }} onChange={handleAvatarChange} />
             </div>
             
-            <div>
-              <h1 style={{ fontSize: '2rem', marginBottom: '0.2rem', color: 'var(--text-primary)' }}>My Profile</h1>
-              <p style={{ color: 'var(--text-secondary)' }}>Manage your account details</p>
+            <div style={{ flex: 1, minWidth: '150px' }}>
+              <h1 style={{ fontSize: 'clamp(1.5rem, 5vw, 2rem)', marginBottom: '0.2rem', color: 'var(--text-primary)' }}>My Profile</h1>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Manage your account details</p>
             </div>
           </div>
           
-          <div style={{ background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(168, 85, 247, 0.1))', border: '1px solid rgba(236, 72, 153, 0.3)', padding: '1rem 1.5rem', borderRadius: '16px', textAlign: 'center', minWidth: '140px', boxShadow: '0 8px 16px rgba(0,0,0,0.1)' }}>
+          <div style={{ background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(168, 85, 247, 0.1))', border: '1px solid rgba(236, 72, 153, 0.3)', padding: '1rem', borderRadius: '16px', textAlign: 'center', minWidth: '140px', boxShadow: '0 8px 16px rgba(0,0,0,0.1)', flex: '1 1 auto' }}>
             <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '0.3rem', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>Available Credits</div>
             <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', textShadow: '0 2px 10px rgba(255,255,255,0.2)' }}>
               <span style={{ color: '#ec4899', filter: 'drop-shadow(0 0 8px rgba(236,72,153,0.6))' }}>✨</span> {user.credits !== undefined ? user.credits : '-'}

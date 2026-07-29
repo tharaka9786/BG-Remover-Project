@@ -78,25 +78,37 @@ export default function Navbar() {
       {isOpen && (
         <div className="mobile-dropdown animate-slide-down" style={{ 
           position: 'absolute', top: '100%', left: 0, right: 0, 
-          background: 'var(--surface-color)', padding: '1.5rem 2rem', 
+          background: 'var(--surface-color)', padding: '1.5rem', 
           borderBottom: '1px solid var(--border-color)',
           display: 'flex', flexDirection: 'column', gap: '1rem',
           boxShadow: '0 10px 20px rgba(0,0,0,0.1)'
         }}>
-          <a href="/about" className="nav-link" style={{ textAlign: 'center', width: '100%', padding: '0.75rem' }} onClick={() => setIsOpen(false)}>About</a>
+          {!loading && user && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border-color)' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'linear-gradient(45deg, var(--primary-color), var(--secondary-color))', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold', overflow: 'hidden' }}>
+                {user.avatar ? <img src={user.avatar} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : (user.name ? user.name.charAt(0).toUpperCase() : 'U')}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: '1.1rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>Welcome, {user.name || 'User'}!</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--primary-color)', fontWeight: '600' }}>✨ {user.credits !== undefined ? user.credits : '-'} Credits Remaining</div>
+              </div>
+            </div>
+          )}
+
+          <a href="/about" className="nav-link" style={{ textAlign: 'left', width: '100%', padding: '0.75rem' }} onClick={() => setIsOpen(false)}>About BGPhotoRemover</a>
           
           {!loading && !user && (
-            <>
-              <a href="/login" className="nav-link" style={{ textAlign: 'center', width: '100%', padding: '0.75rem' }} onClick={() => setIsOpen(false)}>Login</a>
-              <a href="/register" className="btn btn-primary" style={{ textAlign: 'center', margin: '0.5rem auto 0', width: '100%' }} onClick={() => setIsOpen(false)}>Sign Up</a>
-            </>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem' }}>
+              <a href="/login" className="btn" style={{ textAlign: 'center', width: '100%', border: '1px solid var(--border-color)' }} onClick={() => setIsOpen(false)}>Login</a>
+              <a href="/register" className="btn btn-primary" style={{ textAlign: 'center', width: '100%' }} onClick={() => setIsOpen(false)}>Sign Up</a>
+            </div>
           )}
 
           {!loading && user && (
-            <>
-              <a href="/profile" className="nav-link" style={{ textAlign: 'center', width: '100%', padding: '0.75rem' }} onClick={() => setIsOpen(false)}>My Profile</a>
-              <button onClick={handleLogout} className="btn btn-secondary" style={{ textAlign: 'center', margin: '0.5rem auto 0', width: '100%', color: '#ff4b4b', borderColor: '#ff4b4b' }} onClick={() => setIsOpen(false)}>Logout</button>
-            </>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <a href="/profile" className="btn" style={{ textAlign: 'left', width: '100%', border: '1px solid var(--border-color)', justifyContent: 'flex-start', paddingLeft: '1rem' }} onClick={() => setIsOpen(false)}>👤 My Profile</a>
+              <button onClick={handleLogout} className="btn" style={{ textAlign: 'left', width: '100%', border: '1px solid #ff4b4b', color: '#ff4b4b', justifyContent: 'flex-start', paddingLeft: '1rem' }} onClick={() => setIsOpen(false)}>🚪 Logout</button>
+            </div>
           )}
         </div>
       )}
