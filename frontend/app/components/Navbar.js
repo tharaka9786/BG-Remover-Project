@@ -107,7 +107,16 @@ export default function Navbar() {
           {!loading && user && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <a href="/profile" className="btn" style={{ textAlign: 'left', width: '100%', border: '1px solid var(--border-color)', justifyContent: 'flex-start', paddingLeft: '1rem' }} onClick={() => setIsOpen(false)}>👤 My Profile</a>
-              <button onClick={handleLogout} className="btn" style={{ textAlign: 'left', width: '100%', border: '1px solid #ff4b4b', color: '#ff4b4b', justifyContent: 'flex-start', paddingLeft: '1rem' }} onClick={() => setIsOpen(false)}>🚪 Logout</button>
+              <button 
+                onClick={(e) => {
+                  setIsOpen(false);
+                  handleLogout(e);
+                }} 
+                className="btn" 
+                style={{ textAlign: 'left', width: '100%', border: '1px solid #ff4b4b', color: '#ff4b4b', justifyContent: 'flex-start', paddingLeft: '1rem' }}
+              >
+                🚪 Logout
+              </button>
             </div>
           )}
         </div>
