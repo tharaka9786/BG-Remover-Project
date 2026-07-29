@@ -1,11 +1,13 @@
 "use client";
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { user, loading, setUser } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const handleLogout = async () => {
     await fetch('/api/auth/logout', { method: 'POST' });
@@ -21,6 +23,20 @@ export default function Navbar() {
       
       {/* Desktop Menu */}
       <div className="desktop-menu" style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        
+        <button 
+          onClick={toggleTheme}
+          style={{ 
+            background: 'rgba(255,255,255,0.1)', border: '1px solid var(--border-color)', 
+            color: 'var(--text-primary)', width: '40px', height: '40px', borderRadius: '50%', 
+            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+            transition: 'transform 0.3s ease', fontSize: '1.2rem'
+          }}
+          title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
+        >
+          {theme === 'light' ? '🌙' : '☀️'}
+        </button>
+
         <a href="/about" className="nav-link">About</a>
         
         {!loading && !user && (
@@ -96,6 +112,14 @@ export default function Navbar() {
           )}
 
           <a href="/about" className="nav-link" style={{ textAlign: 'left', width: '100%', padding: '0.75rem' }} onClick={() => setIsOpen(false)}>About BGPhotoRemover</a>
+          
+          <button 
+            onClick={toggleTheme}
+            className="btn"
+            style={{ textAlign: 'left', width: '100%', border: '1px solid var(--border-color)', justifyContent: 'flex-start', paddingLeft: '1rem', background: 'transparent', color: 'var(--text-primary)' }}
+          >
+            {theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode'}
+          </button>
           
           {!loading && !user && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem' }}>
