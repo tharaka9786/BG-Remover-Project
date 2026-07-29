@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import ImageComparison from './components/ImageComparison';
+import { useAuth } from './context/AuthContext';
 
 export default function Home() {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -9,6 +10,7 @@ export default function Home() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [resolution, setResolution] = useState("original");
   const [dragActive, setDragActive] = useState(false);
+  const { user, loading, setUser } = useAuth();
 
   const processFilesSelection = (files) => {
     if (!files || files.length === 0) return;
@@ -102,6 +104,14 @@ export default function Home() {
                 originalUrl: URL.createObjectURL(file),
                 processedUrl: finalProcessedUrl,
               };
+            } else if (response.status === 402) {
+              const data = await response.json();
+              alert(data.error);
+              return null;
+            } else if (response.status === 401) {
+              alert("You must be logged in to use this feature.");
+              window.location.href = '/login';
+              return null;
             } else {
               console.error(`Failed to process ${file.name}`);
               return null;
@@ -118,8 +128,13 @@ export default function Home() {
       if (successfulResults.length > 0) {
         setProcessedImages(successfulResults);
         setActiveIndex(0); // Show first image by default
+        
+        // Optimistically update the user's credits locally
+        if (user && user.credits !== undefined) {
+          setUser({ ...user, credits: user.credits - successfulResults.length });
+        }
       } else {
-        alert("Error processing images. Make sure the Python backend is running.");
+        alert("Error processing images. Ensure you are logged in and have credits.");
       }
     } catch (error) {
       console.error(error);
@@ -205,7 +220,17 @@ export default function Home() {
               onDragLeave={handleDrag}
               onDragOver={handleDrag}
               onDrop={handleDrop}
+              style={{ position: 'relative' }}
             >
+              
+              {!loading && !user && (
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(5px)', borderRadius: 'inherit', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>
+                  <h3 style={{ color: 'white', marginBottom: '1rem', fontSize: '1.5rem' }}>Login to Upload</h3>
+                  <p style={{ color: 'rgba(255,255,255,0.8)', marginBottom: '1.5rem' }}>You must be registered to use the Background Remover.</p>
+                  <a href="/login" className="btn btn-primary" style={{ padding: '0.8rem 2rem', fontSize: '1.1rem' }}>Log In Now</a>
+                </div>
+              )}
+
               <h2 className="responsive-box-title">
                 Drag and drop up to 5 images <br/>
                 <span style={{ color: 'var(--primary-color)' }}>or browse to upload.</span>
@@ -227,6 +252,7 @@ export default function Home() {
                 multiple
                 style={{ display: 'none' }} 
                 onChange={handleFileChange}
+                disabled={!user}
               />
 
               {/* Show selected file names if any */}
@@ -248,10 +274,10 @@ export default function Home() {
 
               <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', fontSize: '0.9rem', color: 'var(--text-primary)' }}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span style={{ color: '#ec4899' }}>✔</span> Free to use
+                  <span style={{ color: '#ec4899' }}>✨</span> High Quality
                 </span>
                 <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span style={{ color: '#ec4899' }}>✔</span> No credit card required
+                  <span style={{ color: '#ec4899' }}>🔒</span> Secure Upload
                 </span>
               </div>
             </div>
@@ -262,28 +288,40 @@ export default function Home() {
           </p>
 
           {/* Action Button if File Selected */}
-          {selectedFiles.length > 0 && (
-            <div style={{ marginBottom: '4rem', display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <select 
-                className="input-field" 
-                value={resolution} 
-                onChange={(e) => setResolution(e.target.value)}
-                style={{ cursor: 'pointer', width: 'auto', display: 'inline-block' }}
-              >
-                <option value="original">Original Size</option>
-                <option value="HD">HD (1080p)</option>
-                <option value="2K">2K</option>
-                <option value="4K">4K</option>
-              </select>
+          {selectedFiles.length > 0 && user && (
+            <div style={{ marginBottom: '4rem', display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                <select 
+                  className="input-field" 
+                  value={resolution} 
+                  onChange={(e) => setResolution(e.target.value)}
+                  style={{ cursor: 'pointer', width: 'auto', display: 'inline-block' }}
+                >
+                  <option value="original">Original Size</option>
+                  <option value="HD">HD (1080p)</option>
+                  <option value="2K">2K</option>
+                  <option value="4K">4K</option>
+                </select>
 
-              <button 
-                className="btn btn-primary" 
-                style={{ opacity: isProcessing ? 0.7 : 1, cursor: isProcessing ? 'not-allowed' : 'pointer' }}
-                onClick={handleUpload}
-                disabled={isProcessing}
-              >
-                {isProcessing ? `Processing ${selectedFiles.length} image(s)...` : "Remove Background Now"}
-              </button>
+                <button 
+                  className="btn btn-primary" 
+                  style={{ opacity: isProcessing || user.credits < selectedFiles.length ? 0.7 : 1, cursor: isProcessing || user.credits < selectedFiles.length ? 'not-allowed' : 'pointer' }}
+                  onClick={handleUpload}
+                  disabled={isProcessing || user.credits < selectedFiles.length}
+                >
+                  {isProcessing ? `Processing ${selectedFiles.length} image(s)...` : "Remove Background Now"}
+                </button>
+              </div>
+              
+              <div style={{ fontSize: '0.9rem', color: user.credits < selectedFiles.length ? '#ff4b4b' : 'var(--text-secondary)', background: 'rgba(0,0,0,0.2)', padding: '0.5rem 1rem', borderRadius: '50px' }}>
+                Cost: <strong>{selectedFiles.length} credits</strong> | You have: <strong>{user.credits} credits</strong> remaining
+              </div>
+              
+              {user.credits < selectedFiles.length && (
+                <div style={{ fontSize: '0.85rem', color: '#ff4b4b' }}>
+                  You don't have enough credits to process this many images at once.
+                </div>
+              )}
             </div>
           )}
 

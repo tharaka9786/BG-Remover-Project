@@ -28,10 +28,22 @@ export async function POST(request) {
       return NextResponse.json({ detail: 'Invalid credentials' }, { status: 401 });
     }
 
-    // Normally you would return a JWT session token here.
-    // For now, we return a success response which the frontend handles.
-    return NextResponse.json({ message: 'Login successful', userId: user.id }, { status: 200 });
+    // Generate JWT token
+    const { signToken } = await import('../../../../lib/auth');
+    const token = await signToken({ userId: user.id, email: user.email, name: user.name });
+
+    const response = NextResponse.json({ message: 'Login successful', userId: user.id }, { status: 200 });
     
+    // Set HTTP-Only Cookie
+    response.cookies.set('auth_token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+      path: '/',
+    });
+
+    return response;
   } catch (error) {
     console.error('Login Error:', error);
     return NextResponse.json({ detail: 'Internal server error' }, { status: 500 });

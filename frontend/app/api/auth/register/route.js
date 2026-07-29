@@ -34,8 +34,22 @@ export async function POST(request) {
       }
     });
 
-    return NextResponse.json({ message: 'User registered successfully', userId: user.id }, { status: 201 });
+    // Generate JWT token
+    const { signToken } = await import('../../../../lib/auth');
+    const token = await signToken({ userId: user.id, email: user.email, name: user.name });
+
+    const response = NextResponse.json({ message: 'User registered successfully', userId: user.id }, { status: 201 });
     
+    // Set HTTP-Only Cookie
+    response.cookies.set('auth_token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+      path: '/',
+    });
+
+    return response;
   } catch (error) {
     console.error('Registration Error:', error);
     return NextResponse.json({ detail: 'Internal server error' }, { status: 500 });

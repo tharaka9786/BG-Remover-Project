@@ -1,7 +1,29 @@
 import { NextResponse } from 'next/server';
+import { verifyToken } from '../../../../lib/auth';
+import getPrisma from '../../../../lib/prisma';
 
 export async function POST(req) {
   try {
+    // 1. Verify User is Logged In
+    const token = req.cookies.get('auth_token')?.value;
+    if (!token) {
+      return NextResponse.json({ error: 'You must be logged in to use this feature.' }, { status: 401 });
+    }
+    const payload = await verifyToken(token);
+    if (!payload || !payload.userId) {
+      return NextResponse.json({ error: 'Invalid authentication.' }, { status: 401 });
+    }
+
+    // 2. Check User Credits
+    const prisma = getPrisma();
+    const user = await prisma.user.findUnique({
+      where: { id: payload.userId }
+    });
+
+    if (!user || user.credits <= 0) {
+      return NextResponse.json({ error: 'You have 0 credits remaining. Please upgrade your account.' }, { status: 402 });
+    }
+
     const formData = await req.formData();
     const imageFile = formData.get('file');
 
@@ -33,6 +55,12 @@ export async function POST(req) {
       console.error('Remove.bg API Error:', errorText);
       return NextResponse.json({ error: 'Failed to process image with Remove.bg' }, { status: response.status });
     }
+
+    // 3. Deduct 1 Credit upon success
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { credits: { decrement: 1 } }
+    });
 
     // Return the clean image buffer back to the client
     const imageBuffer = await response.arrayBuffer();
